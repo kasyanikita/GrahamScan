@@ -11,8 +11,6 @@ def random_points():
     print("Number of points:", end=" ")
     n = int(input())
     points = np.random.random((n, 2))
-    plt.scatter(points[:, 0], points[:, 1])
-    plt.savefig("input.jpg")
 
     return points
 
@@ -30,9 +28,6 @@ def user_points():
 
         points[i][0] = x
         points[i][1] = y
-
-    plt.scatter(points[:, 0], points[:, 1])
-    plt.savefig("input.jpg")
 
     return points
 

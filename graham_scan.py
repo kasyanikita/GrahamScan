@@ -5,7 +5,11 @@ from tools import user_points, random_points, cos, orientation
 from merge_sort import merge_sort
 
 
-def graham_scan(points):
+def graham_scan(points, vis=True):
+    
+    if vis:
+        plt.scatter(points[:, 0], points[:, 1])
+        plt.savefig("vis/input.jpg")
 
     start_point = min(points, key=lambda p: (p[1], p[0]))
     # pprint(points)
@@ -18,10 +22,6 @@ def graham_scan(points):
     # sorted_points = sorted(points, key=lambda p: cos(p - start_point, np.array([1, 0])), reverse=True)
     n = points.shape[0]
 
-    # for i, (x,y) in enumerate(sorted_points):
-    #     plt.text(x,y,i, ha="center", va="center", fontsize=20)
-    # plt.savefig("points_order.jpg")
-
     convex_hull = [start_point, sorted_points[0]]
     # print(start_point)
     # pprint(points)
@@ -32,8 +32,15 @@ def graham_scan(points):
         convex_hull.append(sorted_points[i])
 
     convex_hull = np.array(convex_hull)
-    # plt.scatter(convex_hull[:, 0], convex_hull[:, 1], color='red')
-    # plt.savefig("result.jpg")
+    
+    if vis:
+        
+        for i, (x,y) in enumerate(sorted_points):
+            plt.text(x,y,i, ha="center", va="center", fontsize=17)
+        plt.savefig("vis/points_order.jpg")
+        
+        plt.scatter(convex_hull[:, 0], convex_hull[:, 1], color='red')
+        plt.savefig("vis/result.jpg")
 
     return convex_hull
 
@@ -52,9 +59,4 @@ def main():
 
 
 if __name__ == '__main__':
-    # print(cos([1, 0], [0, 1]))
     main()
-    # a = [0.30548441, 0.12844928]
-    # b = [0.41266813, 0.20951243]
-    # c = [0.4055958, 0.13663029]
-    # print(orientation(a, b, c))
