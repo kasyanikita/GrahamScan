@@ -4,8 +4,6 @@ import numpy as np
 from numpy import dot
 from numpy.linalg import norm
 
-matplotlib.use('agg')
-
 
 def random_points():
     print("Number of points:", end=" ")

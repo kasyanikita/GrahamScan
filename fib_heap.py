@@ -1,5 +1,6 @@
 import math
 import numpy as np
+from tools import cos
 
 
 class Node:
@@ -138,7 +139,25 @@ class FibHeap:
         while current != head:
             res.append(current)
             current = current.right
-        return res           
+        return res
+    
+    
+    
+def fib_sort_points(points, start_point):
+    fib = FibHeap()
+    
+    for p in points:
+        fib.insert(cos(p - start_point, np.array([1, 0])), p)
+
+    n = fib.size
+    res = np.zeros((n, 2))
+    i = 0
+    while fib.size != 0:
+        res[n - i - 1] = fib.extract_min().value
+        i += 1
+        
+    return res
+             
         
 
 if __name__ == '__main__':

@@ -1,33 +1,41 @@
+import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 from pprint import pprint
 from tools import user_points, random_points, cos, orientation
 from merge_sort import merge_sort
+from fib_heap import fib_sort_points
+
+matplotlib.use('agg')
 
 
-def graham_scan(points, vis=True):
+def graham_scan(points, mode="fib", vis=True):
     
     if vis:
         plt.scatter(points[:, 0], points[:, 1])
         plt.savefig("vis/input.jpg")
+        
+    if len(points) <= 3:
+        return points
 
     start_point = min(points, key=lambda p: (p[1], p[0]))
-    # pprint(points)
     for i, val in enumerate(points):
         if np.all(val == start_point):
             break
     points = np.delete(points, [i], axis=0)
 
-    sorted_points = merge_sort(points, start_point) 
+    if mode == "merge":
+        sorted_points = merge_sort(points, start_point)
+    elif mode == "fib":
+        sorted_points = fib_sort_points(points, start_point)
+    else:
+        raise ValueError(f"Unknown mode '{mode}'")
     # sorted_points = sorted(points, key=lambda p: cos(p - start_point, np.array([1, 0])), reverse=True)
+    
     n = points.shape[0]
-
     convex_hull = [start_point, sorted_points[0]]
-    # print(start_point)
-    # pprint(points)
     for i in range(1, n):
         while orientation(convex_hull[-2], convex_hull[-1], sorted_points[i]) == -1:
-            # print(convex_hull)
             convex_hull.pop()
         convex_hull.append(sorted_points[i])
 
